@@ -1,0 +1,416 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass scrartcl
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_title "RetroShare: Developing Plugins"
+\pdf_subject "retroshare, plugins"
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation skip
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+RetroShare: Writing Plugins
+\end_layout
+
+\begin_layout Author
+RetroShare Team
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+So you have been using RetroShare for a while, and as a computer programmer,
+ you want to add your favourite plugin to share with others.
+\end_layout
+
+\begin_layout Standard
+Where to start?
+\end_layout
+
+\begin_layout Standard
+Well, that is the purpose of this guide.
+ It will provide a guide for developing it and getting it working with RetroShar
+e with the least amount of effort possible.
+\end_layout
+
+\begin_layout Standard
+This was written as a plugin was being developed, so the screen shots displayed
+ are for that plugin.
+\end_layout
+
+\begin_layout Section
+Important Things
+\end_layout
+
+\begin_layout Subsection
+Language
+\end_layout
+
+\begin_layout Standard
+RetroShare is written in c++ with some parts in c.
+ You need to have a good understanding of c++.
+\end_layout
+
+\begin_layout Subsection
+Tools and Libraries
+\end_layout
+
+\begin_layout Subsubsection
+QtCreator
+\end_layout
+
+\begin_layout Standard
+QtCreator is a free tool that can be used to develop the project, as well
+ as editing, and compiling to create a library as either a .so for Gnu/Linux
+ or .dll for Windows or .
+ 
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+what ever it is for a mac 
+\end_layout
+
+\end_inset
+
+for Mac.
+\end_layout
+
+\begin_layout Subsubsection
+Editor
+\end_layout
+
+\begin_layout Standard
+Many programmers use vim ( from 
+\begin_inset Flex URL
+status collapsed
+
+\begin_layout Plain Layout
+
+http://www.vim.org/
+\end_layout
+
+\end_inset
+
+ ) with some addons to make editing easier and faster, especially on older,
+ slower computers.
+\end_layout
+
+\begin_layout Subsubsection
+Version Control
+\end_layout
+
+\begin_layout Standard
+RetroShare uses svn for its version control.
+ If you are compiling your own, you will understand the use of the svn up
+ command on Gnu/Linux.
+\end_layout
+
+\begin_layout Standard
+For a project like this, git and 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://github.com
+\end_layout
+
+\end_inset
+
+ is a good option.
+ You will need to create an account if you don't have one, and create a
+ repository to store your code in.
+ This allows you to keep an offsite copy of your work, as well as allowing
+ for collaboration.
+ There are many useful tutorials on using git, but essentially it is as
+ follows:
+\end_layout
+
+\begin_layout Enumerate
+Login or create an account at 
+\begin_inset Flex URL
+status collapsed
+
+\begin_layout Plain Layout
+
+https://github.com
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Create a new repository (best to use the same name as your plugin name).
+\end_layout
+
+\begin_layout Enumerate
+cd into the plugin folder you are working with
+\end_layout
+
+\begin_layout Enumerate
+create a README.md file and edit the contents of it.
+\end_layout
+
+\begin_layout Enumerate
+Initialise your local repository:
+\begin_inset Newline newline
+\end_inset
+
+git init
+\end_layout
+
+\begin_layout Enumerate
+Add the file you jsut created to your repository:
+\begin_inset Newline newline
+\end_inset
+
+git add README.md
+\end_layout
+
+\begin_layout Enumerate
+Commit the changes made into your repository:
+\begin_inset Newline newline
+\end_inset
+
+git commit -m 
+\begin_inset Quotes eld
+\end_inset
+
+first commit
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Map your repository to the remote repository using the command:
+\begin_inset Newline newline
+\end_inset
+
+git remote add origin https://github.com/[your user name]/[your plugin].git
+\end_layout
+
+\begin_layout Enumerate
+Now add any other files you have created.
+ To add a folder, just use the folder name, and will track all the files.
+\end_layout
+
+\begin_layout Enumerate
+
+Now copy your repository to the remote :
+\begin_inset Newline newline
+\end_inset
+
+git push -u origin master
+\end_layout
+
+\begin_layout Enumerate
+Now check the status of local git:
+\begin_inset Newline newline
+\end_inset
+
+git status
+\end_layout
+
+\begin_layout Subsection
+Structure
+\end_layout
+
+\begin_layout Standard
+It is possible to put all the files in one folder of the plugin name so
+ that it is ~/retroshare/plugins[your plugin] as shown in 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename folder_structure.png
+	lyxscale 50
+	scale 80
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Folder Structure For Plugin
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+As a suggestion, establish some folders in you plugin to store various parts
+ of your project into (refer to )
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename project_subfolders.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Sub-folders for the plugin (suggested)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+You will notice a folder .git - this is for versioning control - and will
+ be explained later.
+\end_layout
+
+\begin_layout Section
+The Process
+\end_layout
+
+\begin_layout Section
+Documentation
+\end_layout
+
+\begin_layout Section*
+Index
+\end_layout
+
+\end_body
+\end_document
