@@ -701,145 +701,6 @@ The @ and
 \end_layout
 
 \begin_layout Subsection
-Blocks
-\end_layout
-
-\begin_layout Standard
-Blocks are the basic units of documentation for Doxygen.
- At first it will feel like overkill to use blocks, but realize that Doxygen
- was initially designed to operate on header and source files, and then
- the blocks of documentation would be before the definition or declaration
- of the methods, functions, etcetera.
- Doxygen is used to operating on blocks, and that's why we need to reproduce
- them in our dox files.
-\end_layout
-
-\begin_layout Standard
-Blocks should adhere to the following standards:
-\end_layout
-
-\begin_layout Itemize
-All blocks open with
-\begin_inset listings
-inline false
-status open
-
-\begin_layout Plain Layout
-
-/*!
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-and close with
-\begin_inset listings
-inline false
-status open
-
-\begin_layout Plain Layout
-
-*/
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Itemize
-The documentation is placed in between these markers.
- 
-\end_layout
-
-\begin_layout Itemize
-All the contents in between the markers is indented by tabs.
- 
-\end_layout
-
-\begin_layout Itemize
-The tab length should be four.
- 
-\end_layout
-
-\begin_layout Itemize
-Between blocks, there should be two empty lines.
- 
-\end_layout
-
-\begin_layout Itemize
-The maximum width of the contents between blocks is 80 columns.
- Try not to cross this limit, because it will severely limit readability.
- 
-\end_layout
-
-\begin_layout Standard
-Example
-\end_layout
-
-\begin_layout Standard
-\begin_inset listings
-inline false
-status open
-
-\begin_layout Plain Layout
-
-/*!          
-\end_layout
-
-\begin_layout Plain Layout
-
-	
-\backslash
-brief Append an item to the list.
-\end_layout
-
-\begin_layout Plain Layout
-
-    
-\backslash
-detail More detailed description.
-\end_layout
-
-\begin_layout Plain Layout
-
-    
-\backslash
-param item The item to add.
-\end_layout
-
-\begin_layout Plain Layout
-
-    
-\backslash
-retval true The item was appended.
-     
-\end_layout
-
-\begin_layout Plain Layout
-
-    
-\backslash
-retval false Item was not appended, since resizing the list failed.
-       
-\backslash
-sa AddItem(void *item, int32 index) 
-\end_layout
-
-\begin_layout Plain Layout
-
-*/ 
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsection
 File Header 
 \end_layout
 
@@ -850,57 +711,57 @@ status open
 
 \begin_layout Plain Layout
 
-/*!
+/**
 \end_layout
 
 \begin_layout Plain Layout
 
-  
+  * 
 \backslash
 file thing.ext 
 \end_layout
 
 \begin_layout Plain Layout
 
-  Description of the file 
+  * Description of the file 
 \end_layout
 
 \begin_layout Plain Layout
 
-  
+  * 
 \end_layout
 
 \begin_layout Plain Layout
 
-  
+  * 
 \backslash
 author Jake Smith 
 \end_layout
 
 \begin_layout Plain Layout
 
-  
+  * 
 \backslash
 version 1.0 
 \end_layout
 
 \begin_layout Plain Layout
 
-  
+  * 
 \backslash
 date 1999 
 \end_layout
 
 \begin_layout Plain Layout
 
-  
+  * 
 \backslash
 bug A known bug
 \end_layout
 
 \begin_layout Plain Layout
 
-*/  
+**/  
 \end_layout
 
 \end_inset
@@ -919,121 +780,121 @@ status open
 
 \begin_layout Plain Layout
 
-/*!
+/**
 \end_layout
 
 \begin_layout Plain Layout
 
-   
+  * 
 \backslash
 brief Brief (one-line) description of function 
 \end_layout
 
 \begin_layout Plain Layout
 
-  
+  *
 \end_layout
 
 \begin_layout Plain Layout
 
-   Extended description (may extend over several lines).
+  * Extended description (may extend over several lines).
  
 \end_layout
 
 \begin_layout Plain Layout
 
-   
+  * 
 \end_layout
 
 \begin_layout Plain Layout
 
-   @code 
+  * @code 
 \end_layout
 
 \begin_layout Plain Layout
 
-   NSString *example = @"example string!"; 
+  * NSString *example = @"example string!"; 
 \end_layout
 
 \begin_layout Plain Layout
 
-   @endcode 
+  * @endcode 
 \end_layout
 
 \begin_layout Plain Layout
 
-   
+  * 
 \end_layout
 
 \begin_layout Plain Layout
 
-   We can also use lists.
+  * We can also use lists.
  
 \end_layout
 
 \begin_layout Plain Layout
 
-   
+  * 
 \end_layout
 
 \begin_layout Plain Layout
 
-     - item 1 
+  *   - item 1 
 \end_layout
 
 \begin_layout Plain Layout
 
-     - item 2 
+  *   - item 2 
 \end_layout
 
 \begin_layout Plain Layout
 
-   
+  * 
 \end_layout
 
 \begin_layout Plain Layout
 
-   @param first Description of first param 
+  * @param first Description of first param 
 \end_layout
 
 \begin_layout Plain Layout
 
-   @param second Description of second param 
+  * @param second Description of second param 
 \end_layout
 
 \begin_layout Plain Layout
 
-   @return Description of returned value 
+  * @return Description of returned value 
 \end_layout
 
 \begin_layout Plain Layout
 
-   @exception e Description of e 
+  * @exception e Description of e 
 \end_layout
 
 \begin_layout Plain Layout
 
-   @warning Bad things can happen
+  * @warning Bad things can happen
 \end_layout
 
 \begin_layout Plain Layout
 
-   @todo Something to be done
+  * @todo Something to be done
 \end_layout
 
 \begin_layout Plain Layout
 
-   @note Using on your birthday will provide a bonus 
+  * @note Using on your birthday will provide a bonus 
 \end_layout
 
 \begin_layout Plain Layout
 
-   @see [name-list]
+  * @see [name-list]
 \end_layout
 
 \begin_layout Plain Layout
 
-*/
+**/
 \end_layout
 
 \end_inset
@@ -1043,41 +904,6 @@ brief Brief (one-line) description of function
 
 \begin_layout Subsection
 Class
-\end_layout
-
-\begin_layout Standard
-\begin_inset listings
-inline false
-status open
-
-\begin_layout Plain Layout
-
-/*!
-\end_layout
-
-\begin_layout Plain Layout
-
-  
-\backslash
-class
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
-
-*/ 
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Section*
