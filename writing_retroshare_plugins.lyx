@@ -273,6 +273,8 @@ Language
 \begin_layout Standard
 RetroShare is written in c++ with some parts in c.
  You need to have a good understanding of c++.
+ It will be possible to add other features from other languages that can
+ be called from c/c++ and return values into the calling program eg Haskell.
 \end_layout
 
 \begin_layout Subsection
@@ -321,6 +323,10 @@ https://github.com/morpheusbeing/vim
 \end_inset
 
 .
+\end_layout
+
+\begin_layout Standard
+Emacs is another editor that can be used.
 \end_layout
 
 \begin_layout Subsubsection
@@ -376,7 +382,7 @@ https://github.com
 \end_inset
 
  is a good option to manage a local and remote repository.
- 
+ Most of the current plugins have a git repository.
 \end_layout
 
 \begin_layout Standard
@@ -404,7 +410,8 @@ https://github.com
 \end_layout
 
 \begin_layout Enumerate
-Create a new repository (best to use the same name as your plugin name).
+Create a new repository (best to use the same name with same character case
+ as your plugin name).
 \end_layout
 
 \begin_layout Enumerate
@@ -432,7 +439,7 @@ git init
 \end_layout
 
 \begin_layout Enumerate
-Add the file you jsut created to your repository: 
+Add the file you just created to your repository: 
 \begin_inset listings
 inline false
 status open
@@ -657,6 +664,31 @@ reference "sub:Version-Control"
 .
 \end_layout
 
+\begin_layout Subsubsection
+gui folder
+\end_layout
+
+\begin_layout Subsubsection
+interface folder
+\end_layout
+
+\begin_layout Subsubsection
+services folder
+\end_layout
+
+\begin_layout Subsubsection
+lang folder
+\end_layout
+
+\begin_layout Standard
+This folder contains all the files required for translating the strings
+ used in the plugin to the appropriate user language.
+\end_layout
+
+\begin_layout Subsection
+Coding Style
+\end_layout
+
 \begin_layout Section
 Putting It Together
 \end_layout
@@ -680,6 +712,14 @@ You just need in the constructor of your class to declare each member and
 \end_inset
 
 
+\end_layout
+
+\begin_layout Section
+Example
+\end_layout
+
+\begin_layout Standard
+This is a simple example that just displays a popup message.
 \end_layout
 
 \begin_layout Section
@@ -888,7 +928,14 @@ version 1.0
 
   
 \backslash
-date 1999 
+date 1999
+\end_layout
+
+\begin_layout Plain Layout
+
+  
+\backslash
+remarks starts a remarks paragraph, leave empty line after.
 \end_layout
 
 \begin_layout Plain Layout
@@ -896,6 +943,11 @@ date 1999
   
 \backslash
 bug A known bug
+\end_layout
+
+\begin_layout Plain Layout
+
+  
 \end_layout
 
 \begin_layout Plain Layout
@@ -1008,7 +1060,26 @@ brief Brief (one-line) description of function
 
 \begin_layout Plain Layout
 
+   @retval describes the return value of the function
+\end_layout
+
+\begin_layout Plain Layout
+
    @exception e Description of e 
+\end_layout
+
+\begin_layout Plain Layout
+
+   @throw Same as exception
+\end_layout
+
+\begin_layout Plain Layout
+
+   @attention Starts an attention paragraph
+\end_layout
+
+\begin_layout Plain Layout
+
 \end_layout
 
 \begin_layout Plain Layout
@@ -1018,12 +1089,25 @@ brief Brief (one-line) description of function
 
 \begin_layout Plain Layout
 
+\end_layout
+
+\begin_layout Plain Layout
+
    @todo Something to be done
 \end_layout
 
 \begin_layout Plain Layout
 
+\end_layout
+
+\begin_layout Plain Layout
+
    @note Using on your birthday will provide a bonus 
+\end_layout
+
+\begin_layout Plain Layout
+
+  
 \end_layout
 
 \begin_layout Plain Layout
@@ -1077,6 +1161,10 @@ class
 
 \end_inset
 
+
+\end_layout
+
+\begin_layout Standard
 
 \end_layout
 
