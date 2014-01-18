@@ -223,7 +223,30 @@ Concepts
 \end_layout
 
 \begin_layout Standard
-There are 3 types of plugins:
+There are 2 parts to a plugin:
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Most have Both, but can be one or the other -chozabu
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+services - can often run under RetroShare-NoGui
+\end_layout
+
+\begin_layout Enumerate
+GUI - Loaded by RetroShare-GUI to interact with it's service or other parts
+ of 
+\end_layout
+
+\begin_layout Standard
+There are 3 types of Service:
 \end_layout
 
 \begin_layout Enumerate
@@ -239,27 +262,59 @@ services based on cache exchange eg LinksCloud
 \end_layout
 
 \begin_layout Standard
-There are 3 basic parts to each plugin:
+Common Parts:
 \end_layout
 
 \begin_layout Enumerate
 Serialiser - messages that you want to send over the network.
- You just need in the constructor of your class to declare each member and
- what type it needs to be serialized with.
-\end_layout
+ Serialisation is normally done by hand in RS, but there are other ways.
+ Both simple string encoding and JSON have been used.
+\begin_inset Note Note
+status open
 
-\begin_layout Enumerate
-libretroshare service - send/recv msgs and prepare data for GUI.
+\begin_layout Plain Layout
+Saw notes at top of this doc.
  
+\begin_inset Quotes eld
+\end_inset
+
+You just need in the constructor of your class to declare each member and
+ what type it needs to be serialized with.
+\begin_inset Quotes erd
+\end_inset
+
+ needs more info -chozabu.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Enumerate
-rs-gui window - get info from service, and display it!
+Service interface - When loading a plugin, Retroshare provides a list of
+ interfaces, to access Forums, Channels, DHT, Discovery, Messages, Files
+ or other parts of retroshare.
+ Though these interfaces are declared extern, they should be accessed from
 \end_layout
 
 \begin_layout Standard
-All plugins working in the 0.5.* version and releases, will continue to work
- with 0.6 which changes to a new system using GXS.
+All non-cache based plugins working in the 0.5.* version and releases, will
+ continue to work with 0.6 which changes to a new system using GXS.
+ Anything that interacts with Forums/Channels (such as feedreader and WSRS)
+ will need to make some changes.
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Upgrades and changes will be needed.
+ feedreader and WSRS interact with the forums directly, and GXS has quite
+ a different interface.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -275,6 +330,20 @@ RetroShare is written in c++ with some parts in c.
  You need to have a good understanding of c++.
  It will be possible to add other features from other languages that can
  be called from c/c++ and return values into the calling program eg Haskell.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+If one really does not want to use C++, they could also check out WSRS,
+ or PYRS
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
@@ -335,7 +404,7 @@ Libraries
 
 \begin_layout Standard
 Unless your plugin is very complicated, all the required libraries should
- be available on your computer if you can compile a working version of RetroShar
+ be available on your computer If you can compile a working version of RetroShar
 e.
 \end_layout
 
@@ -668,12 +737,34 @@ reference "sub:Version-Control"
 gui folder
 \end_layout
 
+\begin_layout Standard
+This folder contains parts only loaded by RetroShare-GUI for the user to
+ interact with.
+ EG the forum 
+\end_layout
+
 \begin_layout Subsubsection
 interface folder
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+? -chozabu
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection
 services folder
+\end_layout
+
+\begin_layout Standard
+Anything here should be loadable by RetroShare-NOGUI.
+ E.G.
+ the forum service that syncs messages with other people
 \end_layout
 
 \begin_layout Subsubsection
@@ -707,6 +798,18 @@ You just need in the constructor of your class to declare each member and
  It's anyway not an urgent thing to do, since we don't add new serialised
  classes everyday.
  It would be potentially useful for plugins anyway.
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+I'd missed that - looks to me like serialiation need to be done by hand
+ (I'm mostly encoding stuff as json, and sending a string.
+ Easy, but not very optimal!)
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -720,6 +823,17 @@ Example
 
 \begin_layout Standard
 This is a simple example that just displays a popup message.
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Two very helpfull examples for me were the emptyplugin I wrote (could do
+ with a cleanup) and the example plugin that shows basic networking.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
