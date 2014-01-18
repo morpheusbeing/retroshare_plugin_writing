@@ -714,6 +714,10 @@ You just need in the constructor of your class to declare each member and
 
 \end_layout
 
+\begin_layout Subsection
+How To Set Icon
+\end_layout
+
 \begin_layout Section
 Example
 \end_layout
@@ -745,7 +749,15 @@ Blocks
 \end_layout
 
 \begin_layout Standard
-Blocks are the basic units of documentation for Doxygen.
+Blocks are the basic units of documentation for Doxygen from 
+\begin_inset CommandInset href
+LatexCommand href
+name "Doxygen home page"
+target "http://www.stack.nl/~dimitri/doxygen/"
+
+\end_inset
+
+.
  At first it will feel like overkill to use blocks, but realize that Doxygen
  was initially designed to operate on header and source files, and then
  the blocks of documentation would be before the definition or declaration
