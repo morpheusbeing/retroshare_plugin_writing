@@ -224,16 +224,6 @@ Concepts
 
 \begin_layout Standard
 There are 2 parts to a plugin:
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-Most have Both, but can be one or the other -chozabu
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Enumerate
@@ -243,6 +233,11 @@ services - can often run under RetroShare-NoGui
 \begin_layout Enumerate
 GUI - Loaded by RetroShare-GUI to interact with it's service or other parts
  of 
+\end_layout
+
+\begin_layout Standard
+Most existing plugins have both, but can be one or the other, depending
+ on the needs of the plugin.
 \end_layout
 
 \begin_layout Standard
@@ -328,22 +323,17 @@ Language
 \begin_layout Standard
 RetroShare is written in c++ with some parts in c.
  You need to have a good understanding of c++.
- It will be possible to add other features from other languages that can
+ 
+\end_layout
+
+\begin_layout Standard
+It will be possible to add other features from other languages that can
  be called from c/c++ and return values into the calling program eg Haskell.
 \end_layout
 
 \begin_layout Standard
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-If one really does not want to use C++, they could also check out WSRS,
- or PYRS
-\end_layout
-
-\end_inset
-
-
+Another alternative is to use WSRS or PYRS both of which are available from
+ github.
 \end_layout
 
 \begin_layout Subsection
@@ -404,7 +394,7 @@ Libraries
 
 \begin_layout Standard
 Unless your plugin is very complicated, all the required libraries should
- be available on your computer If you can compile a working version of RetroShar
+ be available on your computer if you can compile a working version of RetroShar
 e.
 \end_layout
 
@@ -420,22 +410,12 @@ name "sub:Version-Control"
 \end_layout
 
 \begin_layout Standard
-RetroShare uses svn for its version control.
+At present, RetroShare uses svn for its version control.
  If you are compiling your own, you will understand the use of the 
 \emph on
 svn up
 \emph default
- command on Gnu/Linux
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-How is it done on windows and mac? need to ask
-\end_layout
-
-\end_inset
-
-.
+ command on Gnu/Linux or on MS Windows or on MAC OS.
 \end_layout
 
 \begin_layout Standard
@@ -452,6 +432,23 @@ https://github.com
 
  is a good option to manage a local and remote repository.
  Most of the current plugins have a git repository.
+ 
+\end_layout
+
+\begin_layout Standard
+For example, the FriendMap plugin, using the KDE Marble development libraries
+ is found at 
+\begin_inset Flex URL
+status collapsed
+
+\begin_layout Plain Layout
+
+https://github.com/chozabu/FriendMap
+\end_layout
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -515,7 +512,7 @@ status open
 
 \begin_layout Plain Layout
 
-git add README.md
+git add readme.md
 \end_layout
 
 \end_inset
@@ -532,7 +529,7 @@ status open
 
 \begin_layout Plain Layout
 
-git commit -m first commit
+git commit -a -m "first commit"
 \end_layout
 
 \end_inset
@@ -601,9 +598,44 @@ git status
 
 \end_layout
 
+\begin_layout Paragraph
+More Information About git
+\end_layout
+
 \begin_layout Standard
 For more information about using git, check the internet for tutorials and
  information.
+\end_layout
+
+\begin_layout Standard
+You can find a good, one page cheat sheet at 
+\begin_inset Flex URL
+status collapsed
+
+\begin_layout Plain Layout
+
+https://github.com/AlexZeitler/gitcheatsheet
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+For a git reference that can be found on internet or download or installed
+ on your computer visit 
+\begin_inset Flex URL
+status collapsed
+
+\begin_layout Plain Layout
+
+http://www-cs-students.stanford.edu/~blynn/gitmagic/
+\end_layout
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Subsection
@@ -733,6 +765,19 @@ reference "sub:Version-Control"
 .
 \end_layout
 
+\begin_layout Standard
+You should also create the .gitignore file now to prevent some issues with
+ including unwanted files in the version control.
+ Refer to .gitignore
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Appendix-A--gitignore"
+
+\end_inset
+
+.
+\end_layout
+
 \begin_layout Subsubsection
 gui folder
 \end_layout
@@ -745,16 +790,11 @@ This folder contains parts only loaded by RetroShare-GUI for the user to
 
 \begin_layout Subsubsection
 interface folder
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-? -chozabu
 \end_layout
 
-\end_inset
-
-
+\begin_layout Standard
+Some of the larger, more complicated plugins, have all the interface code
+ stored in this directory.
 \end_layout
 
 \begin_layout Subsubsection
@@ -763,8 +803,7 @@ services folder
 
 \begin_layout Standard
 Anything here should be loadable by RetroShare-NOGUI.
- E.G.
- the forum service that syncs messages with other people
+ For example, the forum service that syncs messages with other people
 \end_layout
 
 \begin_layout Subsubsection
@@ -802,7 +841,7 @@ You just need in the constructor of your class to declare each member and
 status open
 
 \begin_layout Plain Layout
-I'd missed that - looks to me like serialiation need to be done by hand
+I'd missed that - looks to me like serialisation need to be done by hand
  (I'm mostly encoding stuff as json, and sending a string.
  Easy, but not very optimal!)
 \end_layout
@@ -821,6 +860,51 @@ I'd missed that - looks to me like serialiation need to be done by hand
 How To Set Icon
 \end_layout
 
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Tried this with FriendMap, and while I can get the icon to show, the plugin
+ crashes RS
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+readme.md
+\end_layout
+
+\begin_layout Standard
+When creating your repository on github, it is a good idea to create this
+ file at the same.
+\end_layout
+
+\begin_layout Standard
+It should contain at least the following information:
+\end_layout
+
+\begin_layout Enumerate
+What the plugin is for
+\end_layout
+
+\begin_layout Enumerate
+Licence for the plugin
+\end_layout
+
+\begin_layout Enumerate
+Required libraries and their repositories (where they can be obtained from)
+ in the readme.md file.
+\end_layout
+
+\begin_layout Enumerate
+Compiling and installation instructions for all of the platforms that the
+ plugin
+\end_layout
+
 \begin_layout Section
 Example
 \end_layout
@@ -833,6 +917,7 @@ status open
 \begin_layout Plain Layout
 Two very helpfull examples for me were the emptyplugin I wrote (could do
  with a cleanup) and the example plugin that shows basic networking.
+ I only know of the emptyplugin.
 \end_layout
 
 \end_inset
@@ -846,10 +931,28 @@ Documentation Processes
 
 \begin_layout Standard
 RetroShare uses doxygen to comment all of the code.
+ Good comments make it easier for people who come behind you to understand
+ the code and to find and fix issues or make improvements.
 \end_layout
 
 \begin_layout Standard
 There are several different styles of doxygen coding that can be used.
+ 
+\end_layout
+
+\begin_layout Standard
+Refer to 
+\begin_inset Flex URL
+status collapsed
+
+\begin_layout Plain Layout
+
+http://www.doxygen.org/
+\end_layout
+
+\end_inset
+
+ for more information relating to Doxygen.
 \end_layout
 
 \begin_layout Standard
@@ -1290,8 +1393,146 @@ class
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Section
+Appendix A - Basic .gitignore
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Appendix-A--gitignore"
 
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+As plugins are generally created and managed by QtCreator, the following
+ is a basic .gitignore file contents:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+# C++ objects and libs
+\end_layout
+
+\begin_layout Plain Layout
+
+*.slo 
+\end_layout
+
+\begin_layout Plain Layout
+
+*.lo 
+\end_layout
+
+\begin_layout Plain Layout
+
+*.o 
+\end_layout
+
+\begin_layout Plain Layout
+
+*.a 
+\end_layout
+
+\begin_layout Plain Layout
+
+*.la 
+\end_layout
+
+\begin_layout Plain Layout
+
+*.lai 
+\end_layout
+
+\begin_layout Plain Layout
+
+*.so 
+\end_layout
+
+\begin_layout Plain Layout
+
+*.dll 
+\end_layout
+
+\begin_layout Plain Layout
+
+*.dylib
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# Qt-extensions
+\end_layout
+
+\begin_layout Plain Layout
+
+*.pro.user 
+\end_layout
+
+\begin_layout Plain Layout
+
+*.pro.user.* 
+\end_layout
+
+\begin_layout Plain Layout
+
+moc_*.cpp 
+\end_layout
+
+\begin_layout Plain Layout
+
+qrc_*.cpp 
+\end_layout
+
+\begin_layout Plain Layout
+
+ui_*.h 
+\end_layout
+
+\begin_layout Plain Layout
+
+Makefile* 
+\end_layout
+
+\begin_layout Plain Layout
+
+*-build-*
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+# QtCreator
+\end_layout
+
+\begin_layout Plain Layout
+
+*.autosave
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Having this in the folder makes managing git a whole lot easier.
 \end_layout
 
 \begin_layout Section*
