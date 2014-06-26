@@ -1,0 +1,596 @@
+% SiSU master 5.4
+
+@title: RetroShare: Developing Plugins
+   :subtitle: A Guide for 0.6
+   :language: English
+
+@creator:
+   :author: Morpheus Being
+   :illustrator: ASmith
+   :translator: Anonymous
+   :prepared_by: Anonymous
+
+@rights: 
+   :copyright: Copyright (C) RetroShare Development Team 2014
+   :licence: GPL 3.0.
+   :text: 2014 Morpheus Being
+   :translation: 2014 Anonymous
+   :illustrations: 2014 Anonymous
+
+@classify:
+   :type: information
+   :topic_registrer: RetroShare:plugins;electronic documents;RetroShare programming
+   :subject: ebook, epublishing, electronic book, retroshare, plugins
+   :description: A guide to writing plugins for RetroShare
+   :keywords: RetroShare, plugins, c, c++
+
+% used_by: manual
+
+@date:
+   :published: 2014-06-30
+   :created: 2014-01-25
+   :issued: 2014-07-01
+   :available: 2014-07-01
+   :modified: 2014-06-20
+
+@make:
+   :num_topL 1
+   :breaks: new=C; break=1
+   :skinL
+
+@links:
+   { RetroShare Homepage }http://retroshare.sourceforge.net/
+   { RetroShare Wiki }http://retroshare.sourceforge.net/wiki/
+   { RetroShare Unofficial Wiki }http://retroshare.wikidot.com/
+   { RetroShare Wikipedia }https://en.wikipedia.org/wiki/RetroShare/
+
+code{
+There are 3 basic parts to a plugin: 
+4:55 PM drBob: 1) Serialiser - messages that you want to send over the network.
+ 4:56 PM drBob: 2) libretroshare service - send/recv msgs and prepare data
+ for GUI.
+ 4:56 PM drBob: 3) rs-gui window - get info from service, and display it!
+electron: now i would like to make a plugin based on gxs.
+ For this the Plugin needs access to the gxs id service.
+ Is it the correct way to pass the idservice with the RsPluginInterfaces
+ to the plugin? 
+ 4:57 PM drBob: haha, nice - but its not quite ready! We
+ probably need to modify stuff to make gxsId service available, and the GxsCircle service available.
+ 4:58 PM drBob: what plugin where you thinking about? 
+ 4:59 PM electron: first a gxs-testing plugin and later someday a file sync plugin 
+ 5:03 PM Morpheus Being: And will think of a couple of suitable plugins - chess/gomoku like in psi+? 
+ 5:03 PM drBob: @electron, perhaps better to write them as normal services - compiled in.
+ 5:03 PM electron: about serielisers: do you write the serialisers by hand? because i don't like to write 100 lines of code, just to serialise a simple string.
+ I have a idea of how to let the compiler write serialisers using templates.
+ But i'm not sure if i missed something.
+ 5:04 PM drBob: we write the serialisers by hand.
+ 5:04 PM electron: drbob: yes i thought of this.
+ 5:05 PM Cyril: hi 
+ 5:05 PM electron: hi Cyril 
+ 5:05 PM drBob: when you find we need access to stuff, that isn't in the plugin manager - then we can
+ add the access.
+ 5:05 PM Cyril: serialisers are not so tedious to write.
+ 5:05 PM drBob: (like gxsIds) 
+ 5:06 PM Cyril: Just copy what's done in existing
+ serialisers.
+ The most recent ones are in rsmsgitems.cc in v0.6-initdev branch.
+ 5:08 PM electron: i just feel like doing something wrong when copieng code
+ 5:08 PM drBob: haha.
+ 5:08 PM Cyril: just dont forget to update the items' IDs ￼ 
+ 5:10 PM Cyril:
+ we could do some fancy things, like classes that derive from an automatic
+ serialisation base class.
+ I've done that in my own projects for GUIs.
+ You automatically get a gui entry for each member of a class.
+ But it is not really needed for us now.
+ 5:13 PM electron: i was unhappy with writing serielisers by hand, and so
+ i thought about something using templates.
+ Then you just have to write a serialiser like this: serialise/deserialise_tool<
+<var.
+ It is harder to understand what is going on later, but it was fun to think
+ about this 5:18 PM Lobby management: dasweiss-2 joined the lobby.
+ 5:29 PM Lobby management: Like has left the lobby.
+ 5:40 PM Lobby management: Stu Pid has left the lobby.
+ 6:01 PM Cyril: @electron: well, actually you cna do that.
+ You just need in the constructor of your class to declare each member and
+ what type it needs to be serialized with.
+ It's anyway not an urgent thing to do, since we don't add new serialised
+ classes everyday.
+ It would be potentially useful for plugins anyway.
+
+5:14 PM Cyril: Basically there's multiple points: GUI part, and service
+ part.
+ The later is divided into 3 categories: (1) services based on friend communicat
+ion, (2) services based on turtle router, (3) services based on cache exchange
+ 5:14 PM Cyril: the currency plugin is type (2) 
+5:15 PM Cyril: VOIP is type (1) 
+5:15 PM Cyril: LinksCloud is type (3) 5:16
+ PM Cyril: Aout the alternate currency plugin, there's a simple version
+ of it, called tortoise plugin, that only deadls with the tunnel-based communica
+tion.
+ Is that what you're talking about? I'd like to include that one in the
+ sources, as a code example.
+ 5:19 PM Cyril: https://github.com/zeroreserve/tortoise 
+ 5:20 PM Morpheus
+ Being: yep 
+ 5:20 PM Cyril: that's the one I'm talking about 
+ 5:20 PM Morpheus
+ Being: ok 
+ 5:20 PM Cyril: ok 
+ 5:20 PM Morpheus Being: I haven't looked at
+ it yet to start understanding it 
+ 5:20 PM Cyril: no need to go into the real bitcoin plugin.  Too complicated for a plugin squeleton example 
+ 5:20 PM Morpheus Being:
+ Does only of these services disappear with gxs 
+ 5:21 PM ASmith: EmptyPluginRS-master.zip
+
+\begin_layout Plain Layout
+5:21 PM Morpheus Being: I do any of these services disappear with gs 5:21
+ PM Cyril: no.
+ All the plugins will continue to work with GXS.
+ 5:21 PM Morpheus Being: gxs 5:21 PM Morpheus Being: Ahh that is good to
+ know, thanks 5:22 PM Morpheus Being: fingers misbehaving 5:22 PM Morpheus
+ Being: I have a bit of short circuit in nerves in neck 5:22 PM Cyril: only
+ questions: LinksCloud will be using the old cache system.
+ We'll replace it by the Posted service, which uses GXS and does at least
+ the same thing 5:22 PM Morpheus Being: k 5:24 PM Lobby management: jenster
+ joined the lobby.
+ 5:24 PM ASmith: FeedReader has optional Proxy support, why can't that be
+ added to the main Retroshare Platform? 5:25 PM Morpheus Being: I haven't
+ used links cloud a lot, but use feedreader a lot 5:26 PM Morpheus Being:
+ will look at the code and differences over weekend 5:26 PM Morpheus Being:
+ Have to go for a bit now, and feed/water animals, be back a bit later.
+ 
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newpage newpage
+\end_inset
+}code
+
+
+1~ Introduction
+
+So you have been using RetroShare for a while, and as a computer programmer,
+ you want to add your favourite plugin to share with others.
+
+Where to start?
+
+Well, that is the purpose of this guide.
+ It will provide a guide for developing it and getting it working with RetroShar
+e with the least amount of effort possible.
+
+This was written as a plugin was being developed, so the screen shots displayed
+ are for that plugin.
+
+
+1~ Concepts
+
+There are 3 parts to a plugin:
+
+# serialiser - messages to be sent over the network to friends and others
+
+# services - can often run under RetroShare-NoGui, provided in libretroshare services.
+
+# GUI - Loaded by RetroShare-GUI to interact with it's service(s) or other parts of RetroShare
+
+Most existing plugins have both, but can be one or the other, depending
+ on the needs of the plugin.
+
+There are 3 types of Service:
+
+# services based on friend to friend communication eg VoIP
+
+# services based on turtle router eg ZeroReserve
+
+# services based on cache exchange eg LinksCloud
+
+Common Parts:
+
+# Serialiser - messages that you want to send over the network.
+ Serialisation is normally done by hand in RS, but there are other ways.
+ Both simple string encoding and JSON have been used.
+
+code{
+You just need in the constructor of your class to declare each member and
+ what type it needs to be serialized with.
+
+ needs more info -chozabu.
+}code
+
+# Service interface - When loading a plugin, Retroshare provides a list of
+ interfaces, to access Forums, Channels, DHT, Discovery, Messages, Files
+ or other parts of retroshare.
+ Though these interfaces are declared extern, they should be accessed from
+!{missing information}!
+
+
+All non-cache based plugins working in the 0.5.* version and releases, will
+ continue to work with 0.6 which changes to a new system using GXS.
+ Anything that interacts with Forums/Channels (such as feedreader and WSRS)
+ will need to make some changes.
+
+Upgrades and changes will be needed.
+ feedreader and WSRS interact with the forums directly, and GXS has quite
+ a different interface.
+
+1~ Important Things
+
+2~ Language
+
+RetroShare is written in c++ with some parts in c.
+ You need to have a good understanding of c++.
+ 
+It will be possible to add other features from other languages that can
+ be called from c/c++ and return values into the calling program eg Haskell.
+
+Another alternative is to use WSRS or PYRS both of which are available from
+ github.
+
+2~ Tools and Libraries
+
+3~ QtCreator
+
+QtCreator is a free tool that can be used to develop the project, as well
+ as editing, and compiling to create a library as either a *.so for Gnu/Linux
+ or *.dll for Windows or *.so for Mac.
+ 
+
+3~ Editor
+
+\begin_layout Standard
+Many programmers use vim ( from _http://www.vim.org/ ) with some addons to make editing easier and faster, especially on older,
+ slower computers.
+
+Emacs is another editor that can be used.
+
+3~ Libraries
+
+Unless your plugin is very complicated, all the required libraries should
+ be available on your computer if you can compile a working version of RetroShar
+e.
+
+3~ Version Control
+
+At present, RetroShare uses svn for its version control.
+If you are compiling your own, you will understand the use of the 
+code{
+svn up
+}code
+
+ command on Gnu/Linux or on MS Windows or on MAC OS.
+
+For a project like this, git and _https://github.com/ is a good option to manage a local and remote repository.
+ Most of the current plugins have a git repository.
+
+For example, the FriendMap plugin, using the KDE Marble development libraries
+ is found at _https://github.com/chozabu/FriendMap .
+
+You will need to create an account if you don't have one, and create a repositor
+y to store your code in.
+ This allows you to keep an offsite copy of your work, as well as allowing
+ for collaboration.
+ There are many useful tutorials on using git, but essentially it is as
+ follows:
+
+# Login or create an account at _https://github.com/ .
+
+# Create a new repository (best to use the same name with same character case
+ as your plugin name).
+
+# on your computer, cd into the plugin folder you are working with
+
+# create a README.md file and edit the contents of it.
+
+# Initialise your local repository: 
+
+code{
+git init
+}code
+
+# Add the file you just created to your repository: 
+
+code{
+git add readme.md
+}code
+
+# Commit the changes made into your repository:
+
+code{
+git commit -a -m "first commit"
+}code
+
+# Map your repository to the remote repository using the command:
+
+code{
+git remote add origin https://github.com/[your user name]/[your plugin].git
+}code
+
+# Now add any other files you have created.
+
+ To add a folder, just use the folder name, and will track all the files.
+code{
+git add [foldername]
+}code
+
+# Now copy your repository to the remote :
+
+code{
+git push -u origin master
+}code
+
+# Now check the status of local git:
+
+code{
+git status
+}code
+
+!{More Information About git}!
+
+For more information about using git, check the internet for tutorials and
+ information.
+
+\begin_layout Standard
+You can find a good, one page cheat sheet at _https://github.com/AlexZeitler/gitcheatsheet/ .
+
+For a git reference that can be found on internet or download or installed
+ on your computer visit _http://www-cs-students.stanford.edu/~blynn/gitmagic/
+.
+
+2~ Structure
+
+It is possible to put all the files in one folder of the plugin name so
+ that it is ~/retroshare/plugins[your plugin] as shown in 
+ 
+{ folder_structure.png 640x480 }
+
+As a suggestion, establish some folders in you plugin to store various parts
+ of your project into (refer to 
+
+{	project_subfolders.png 640x480 }
+
+You will notice a folder .git - this is for versioning control - refer to
+.
+You should also create the .gitignore file now to prevent some issues with
+ including unwanted files in the version control.
+
+ Refer to .gitignore
+
+.
+
+2~ gui folder
+
+This folder contains parts only loaded by RetroShare-GUI for the user to
+ interact with.
+ EG the forum 
+
+3~ interface folder
+
+Some of the larger, more complicated plugins, have all the interface code
+ stored in this directory.
+
+3~ services folder
+
+Anything here should be loadable by RetroShare-NOGUI.
+ For example, the forum service that syncs messages with other people
+
+3~ lang folder
+
+This folder contains all the files required for translating the strings
+ used in the plugin to the appropriate user language.
+
+2~ Coding Style
+
+1~ Putting It Together
+
+2~ Serialiser
+
+code{
+You just need in the constructor of your class to declare each member and
+ what type it needs to be serialized with.
+ It's anyway not an urgent thing to do, since we don't add new serialised
+ classes everyday.
+ It would be potentially useful for plugins anyway.
+
+I'd missed that - looks to me like serialisation need to be done by hand
+ (I'm mostly encoding stuff as json, and sending a string.
+ Easy, but not very optimal!)
+
+}code
+
+2~ How To Set Icon
+
+Tried this with FriendMap, and while I can get the icon to show, the plugin
+ crashes RS
+
+1~ README.md
+
+When creating your repository on github, it is a good idea to create this
+ file at the same.
+
+It should contain at least the following information:
+
+# What the plugin is for
+
+# Licence for the plugin
+
+# Required libraries and their repositories (where they can be obtained from) in the readme.md file.
+
+# Compiling and installation instructions for all of the platforms that the plugin.
+
+1~ Example
+
+This is a simple example that just displays a popup message.
+code{
+Two very helpfull examples for me were the emptyplugin I wrote (could do
+ with a cleanup) and the example plugin that shows basic networking.
+ I only know of the emptyplugin.
+}code
+
+1~ Documentation Processes
+
+RetroShare uses doxygen to comment all of the code.
+ Good comments make it easier for people who come behind you to understand
+ the code and to find and fix issues or make improvements.
+
+There are several different styles of doxygen coding that can be used.
+
+Refer to _http://www.doxygen.org/ for more information relating to Doxygen.
+
+The @ and \ are interchangeable.
+
+2~ Blocks
+
+Blocks are the basic units of documentation for Doxygen from _http://www.stack.nl/~dimitri/doxygen/ .
+
+ At first it will feel like overkill to use blocks, but realize that Doxygen
+ was initially designed to operate on header and source files, and then
+ the blocks of documentation would be before the definition or declaration
+ of the methods, functions, etcetera.
+ Doxygen is used to operating on blocks, and that's why we need to reproduce
+ them in our dox files.
+
+Blocks should adhere to the following standards:
+
+# All blocks open with
+code{
+/*!
+}code
+
+or
+
+code{
+/**
+}code
+
+# and close with
+code{
+*/
+}code
+
+# The documentation is placed in between these markers.
+# All the contents in between the markers is indented by tabs.
+# The tab length should be four.
+# Between blocks, there should be two empty lines.
+# The maximum width of the contents between blocks is 80 columns.
+ Try not to cross this limit, because it will severely limit readability.
+ 
+Example
+
+code{
+/**          
+  * \brief Append an item to the list.
+  *
+  * \detail More detailed description.
+  *  
+  * \param item The item to add.
+  * \retval true The item was appended.
+  * \retval false Item was not appended, since resizing the list failed.
+  * \sa AddItem(void *item, int32 index) 
+*/ 
+}code
+
+2~ File Header 
+
+code{
+/**
+ * @file thing.ext 
+ *
+ * Description of the file 
+ * @author Jake Smith 
+ * @version 1.0 
+ * @date 2014 
+ * @remarks a remarks paragraph, leave empty line after.
+ *
+ * @bug A known bug
+*/  
+}code
+
+2~ Function
+
+code{
+/*!
+   
+\backslash
+brief Brief (one-line) description of function 
+
+
+   Extended description (may extend over several lines).
+ 
+
+
+   @code 
+   NSString *example = @"example string!"; 
+   @endcode 
+     - item 1 List item 1
+     - item 2 List item 2
+   @param first Description of first param 
+   @param second Description of second param 
+
+   @return Description of returned value 
+
+   @retval describes the return value of the function
+
+   @exception e Description of e 
+
+   @throw Same as exception
+
+   @attention Starts an attention paragraph
+
+   @warning Bad things can happen
+
+   @todo Something to be done
+
+   @note Using on your birthday will provide a bonus 
+
+   @see [name-list]
+
+*/
+}code
+
+2~ Class
+code{
+/*!
+  
+\backslash
+class
+
+*/ 
+}code
+
+1~ Appendix A - Basic .gitignore
+
+As plugins are generally created and managed by QtCreator, the following
+ is a basic .gitignore file contents:
+
+code{
+# C++ objects and libs
+*.slo 
+*.lo 
+*.o 
+*.a 
+*.la 
+*.lai 
+*.so 
+*.dll 
+*.dylib
+
+# Qt-extensions
+*.pro.user 
+*.pro.user.* 
+moc_*.cpp 
+qrc_*.cpp 
+ui_*.h 
+Makefile* 
+*-build-*
+
+# QtCreator
+*.autosave
+}code
+
+Having this in the folder makes managing git a whole lot easier.
+
+1~ Index
+
